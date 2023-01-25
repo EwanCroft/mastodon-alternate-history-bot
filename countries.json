@@ -195,5 +195,22 @@
         "Suriname",
         "Uruguay",
         "Venezuela"
-]
+    ],
+    "Oceania":
+    [
+        "Australia",
+        "Fiji",
+        "Kiribati",
+        "Marshall Islands",
+        "Micronesia",
+        "Nauru",
+        "New Zealand",
+        "Palau",
+        "Papua New Guinea",
+        "Samoa",
+        "Soloman Islands",
+        "Tonga",
+        "Tuvalu",
+        "Vanuatu"
+    ]
 }
