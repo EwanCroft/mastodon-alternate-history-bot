@@ -7,6 +7,7 @@ import time
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 country_list = os.path.join(ROOT_DIR, "countries.json")
+year = 1900
 
 if not os.path.exists(rf'{ROOT_DIR}\config.ini'):
     url = input("Enter the URL of your Mastodon instance:\n")
@@ -23,23 +24,23 @@ if not os.path.exists(rf'{ROOT_DIR}\config.ini'):
     access_token = mastodon.log_in(email, password)
 
     config = configparser.ConfigParser()
-    config.add_section('MASTODON')
     
-    config['MASTODON'] = {
-        'url': url,
-        'email': email,
-        'password': password,
-        'client_id': client_id,
-        'client_secret': client_secret,
-        'access_token': access_token
-    }
-    
-    config.add_section('YEAR')
-    
-    config['YEAR'] = {
-        'YEAR':"1900"
-    }
-    
+    if not config.has_section('MASTODON'):
+        config.add_section('MASTODON')
+        config['MASTODON'] = {
+            'url': url,
+            'email': email,
+            'password': password,
+            'client_id': client_id,
+            'client_secret': client_secret,
+            'access_token': access_token
+        }
+    if not config.has_section('YEAR'):
+        config.add_section('YEAR')
+        config['YEAR'] = {
+            'YEAR': year
+        }
+
     with open(rf'{ROOT_DIR}\config.ini', 'w') as configfile:
         config.write(configfile)
 
@@ -58,6 +59,9 @@ with open(country_list, 'r') as f:
 
 mastodon = Mastodon(client_id=client_id_str, client_secret=client_secret_str, access_token=access_token_str, api_base_url=url)
 
+country_a = ""
+country_b = ""
+
 while True:
     while True:
         continent = random.choice(["Africa", "Europe", "North America", "South America", "Antartica", "Oceania", "Asia"])
@@ -66,6 +70,8 @@ while True:
             while True:
                 country_a = random.choice(data["Africa"])
                 country_b = random.choice(data["Africa"])
+                
+                print(country_a, country_b)
                 
                 if country_b == country_a:
                     continue
@@ -77,6 +83,8 @@ while True:
                 country_a = random.choice(data["Europe"])
                 country_b = random.choice(data["Europe"])
                 
+                print(country_a, country_b)
+                
                 if country_b == country_a:
                     continue
                 else:
@@ -86,6 +94,8 @@ while True:
             while True:
                 country_a = random.choice(data["North America"])
                 country_b = random.choice(data["North America"])
+                
+                print(country_a, country_b)
                     
                 if country_b == country_a:
                     continue
@@ -97,6 +107,8 @@ while True:
                 country_a = random.choice(data["South America"])
                 country_b = random.choice(data["South America"])
                 
+                print(country_a, country_b)
+                
                 if country_b == country_a:
                     continue
                 else:
@@ -106,6 +118,8 @@ while True:
             while True:
                 country_a = random.choice(data["Asia"])
                 country_b = random.choice(data["Asia"])
+                
+                print(country_a, country_b)
                     
                 if country_b == country_a:
                     continue
@@ -116,6 +130,8 @@ while True:
             while True:
                 country_a = random.choice(data["Oceania"])
                 country_b = random.choice(data["Oceania"])
+                
+                print(country_a, country_b)
                     
                 if country_b == country_a:
                     continue
@@ -123,7 +139,7 @@ while True:
                     break
         
         break
-
+    
     with open(rf"{ROOT_DIR}\scenarios.json", "r") as f:
         data = json.load(f)
 
@@ -134,14 +150,18 @@ while True:
     scenario = scenario.replace("{{country_a}}", country_a).replace("{{country_b}}", country_b)
     post_text = f"{year}:\n{scenario}\n\n#AlternateHistory"
 
-    mastodon.status_post(spoiler_text = "Alternate history scenario", status = post_text)
-
-    year = int(year) + 1
-    year = str(year)
-    config = configparser.ConfigParser()
-    config["YEAR"] = year
+    try:
+        mastodon.status_post(spoiler_text = "Alternate history scenario", status = post_text)
+    except Exception as e:
+        print(e)
     
+    config = configparser.ConfigParser()
+    config.read(rf'{ROOT_DIR}\config.ini')
+    year = int(config.get('YEAR', 'YEAR')) + 1
+    config.set('YEAR', 'YEAR', str(year))
+
     with open(rf'{ROOT_DIR}\config.ini', 'w') as configfile:
         config.write(configfile)
+
     
     time.sleep(3600)
