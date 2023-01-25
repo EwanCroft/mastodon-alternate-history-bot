@@ -1,0 +1,18 @@
+{
+    "peaceful":
+    [
+        "{{country_a}} and {{country_b}} have signed a trade agreement to increase economic cooperation.",
+        "{{country_a}} and {{country_b}} have launched a cultural exchange program to promote understanding between the two nations.",
+        "{{country_a}} and {{country_b}} have begun a joint scientific research initiative to tackle a shared global issue.",
+        "The leaders of {{country_a}} and {{country_b}} have met for a diplomatic visit to strengthen relations between the two nations.",
+        "{{country_a}} and {{country_b}} have seen an increase in tourism as citizens of both countries visit each other's nations."
+    ],
+    "hostile":
+    [
+        "{{country_a}} has declared war on {{country_b}}.",
+        "{{country_a}} has imposed economic sanctions on {{country_b}} in response to a political dispute.",
+        "{{country_a}} has launched a cyber attack on {{country_b}}'s government infrastructure.",
+        "{{country_a}}'s intelligence agency has been caught engaging in espionage against {{country_b}}.",
+        "{{country_a}} and {{country_b}} have severed diplomatic ties following a breakdown in relations between the two nations."
+    ]
+}
