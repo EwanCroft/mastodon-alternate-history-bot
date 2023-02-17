@@ -7,10 +7,10 @@ import time
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 country_list = os.path.join(ROOT_DIR, "countries.json")
-year = 1900
+year = random.randint(1900, 2000)
 
 if not os.path.exists(rf'{ROOT_DIR}\config.ini'):
-    url = input("Enter the URL of your Mastodon instance:\n")
+    url = input("Enter the full URL (i.e. https://mastodon.social) of your Mastodon instance:\n")
     email = input("Enter your email address:\n")
     password = input("Enter your password:\n")
     
@@ -35,11 +35,6 @@ if not os.path.exists(rf'{ROOT_DIR}\config.ini'):
             'client_secret': client_secret,
             'access_token': access_token
         }
-    if not config.has_section('YEAR'):
-        config.add_section('YEAR')
-        config['YEAR'] = {
-            'YEAR': year
-        }
 
     with open(rf'{ROOT_DIR}\config.ini', 'w') as configfile:
         config.write(configfile)
@@ -52,7 +47,6 @@ password = config['MASTODON']['password']
 client_id_str = config['MASTODON']['client_id']
 client_secret_str = config['MASTODON']['client_secret']
 access_token_str = config['MASTODON']['access_token']
-year = config['YEAR']['YEAR']
 
 with open(country_list, 'r') as f:
     data = json.load(f)
@@ -71,7 +65,7 @@ while True:
                 country_a = random.choice(data["Africa"])
                 country_b = random.choice(data["Africa"])
                 
-                print(country_a, country_b)
+                print(f"{country_a} and {country_b}")
                 
                 if country_b == country_a:
                     continue
@@ -83,7 +77,7 @@ while True:
                 country_a = random.choice(data["Europe"])
                 country_b = random.choice(data["Europe"])
                 
-                print(country_a, country_b)
+                print(f"{country_a} and {country_b}")
                 
                 if country_b == country_a:
                     continue
@@ -95,7 +89,7 @@ while True:
                 country_a = random.choice(data["North America"])
                 country_b = random.choice(data["North America"])
                 
-                print(country_a, country_b)
+                print(f"{country_a} and {country_b}")
                     
                 if country_b == country_a:
                     continue
@@ -107,7 +101,7 @@ while True:
                 country_a = random.choice(data["South America"])
                 country_b = random.choice(data["South America"])
                 
-                print(country_a, country_b)
+                print(f"{country_a} and {country_b}")
                 
                 if country_b == country_a:
                     continue
@@ -119,7 +113,7 @@ while True:
                 country_a = random.choice(data["Asia"])
                 country_b = random.choice(data["Asia"])
                 
-                print(country_a, country_b)
+                print(f"{country_a} and {country_b}")
                     
                 if country_b == country_a:
                     continue
@@ -131,7 +125,7 @@ while True:
                 country_a = random.choice(data["Oceania"])
                 country_b = random.choice(data["Oceania"])
                 
-                print(country_a, country_b)
+                print(f"{country_a} and {country_b}")
                     
                 if country_b == country_a:
                     continue
@@ -154,11 +148,6 @@ while True:
         mastodon.status_post(spoiler_text = "Alternate history scenario", status = post_text)
     except Exception as e:
         print(e)
-    
-    config = configparser.ConfigParser()
-    config.read(rf'{ROOT_DIR}\config.ini')
-    year = int(config.get('YEAR', 'YEAR')) + 1
-    config.set('YEAR', 'YEAR', str(year))
 
     with open(rf'{ROOT_DIR}\config.ini', 'w') as configfile:
         config.write(configfile)
